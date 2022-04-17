@@ -1,23 +1,22 @@
 import React,{useState,useEffect} from 'react'
-import './supdate.css'
 
 // get list.id in order to call the api
 // show a form when triggered
 
 const Update = (props) => {
-  let num_id = props.num_id
-
-
-
   const handleUpdate = (e) => {
     let new_words = e.target[0].value
+    let user = localStorage.getItem('user')
+    console.log(user)
+    console.log(props.list_id)
+
 
     let new_post = {
-      id: props.num_id,
+      id: props.list_id,
       title: new_words,
-      user_id:1
+      user_id: user
     }
-    let url = 'http://localhost:8000/api/task/' + num_id + '/'
+    let url = 'http://localhost:8000/api/task/' + props.list_id + '/'
     fetch(url, {
       method: 'PUT',
       headers: {'Content-type': 'application/json'},

@@ -4,10 +4,11 @@ import axios from 'axios'
 const Delete = (props) => {
 
   const handleSubmitDelete = (e) => {
-    console.log('handle delete...')
-    console.log(props.num)
+
     let delete_url = 'http://localhost:8000/api/task/' + props.num + '/'
-    axios.delete(delete_url).then(()=>console.log('delete successful'))
+    axios.delete(delete_url).then(()=>{
+      console.log('delete successful')
+    })
   }
   return (
     <div>

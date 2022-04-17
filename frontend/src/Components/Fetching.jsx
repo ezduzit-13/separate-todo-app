@@ -4,40 +4,60 @@ import Create from './Create'
 import Delete from './Delete'
 import axios from 'axios'
 import './style-fetching.css'
+import { Link } from "react-router-dom";
+
 
 
 const Fetching = () => {
   const [list,getList] = useState(null)
   const [update, getUpdate] = useState(false)
   const [create, getCreate] = useState (false)
-  const [number,getNumber] = useState(null)
+  const [list_id,getList_id] = useState(null)
 
-  const url = 'http://localhost:8000/api/task/'
+  const user = localStorage.getItem('user')
+
+  async function fetchTask() {
+    let response = await fetch('http://localhost:8000/api/user-tasks/' + user)
+    let data = response.json()
+    return data
+  }
 
   useEffect(()=>{
-    axios.get(url)
-    .then(response=>{
-      console.log('fetching api...')
-      getList(response.data)
+    fetchTask().then((data)=> {
+      console.log(data)
+      getList(data)
     })
-  },[url])
+    
+  },[])
 
+  const Logout = () => {
+    localStorage.removeItem('tokens')
+    localStorage.removeItem('user')
+    window.location.href = ('/login')
+  }
+
+  function updateClick() {
+
+    getUpdate(true)
+
+    getList_id(list.id)
+  }
+
+  
   function taskListShow(list) {
     return (
       <tr>
         <td>{list.title}</td>
         <td>
-          <button onClick={()=>{getUpdate(() => true); getNumber(()=>list.id)}}>update</button>
+          <button onClick={()=>{getUpdate(true);getList_id(()=>list.id)}}>update</button>
         </td>
         <td><Delete num = {list.id}/></td>
       </tr> 
-
     )
   }
 
 
-  if(list){
-    return(
+  return (user ?list ?  
     <div>       
         <table>
             {list.map(taskListShow)}
@@ -45,19 +65,13 @@ const Fetching = () => {
         <button onClick = {()=>getCreate(()=>true)}>New To-Do</button>
         <br />
         <Create trigger = {create}/>
+        <Update trigger = {update} list_id = {list_id}/>
+        <br />
+        <br /> 
+        <div onClick={Logout}>log out</div>
+    </div>: <></>: window.location.href = '/login')
 
-        <Update trigger = {update} num_id = {number}/>
-
-
-    </div>
-    
-    )
-}
-  return(
-    <div>
-
-    </div>
-  )
+  
 }
 export default Fetching
 
