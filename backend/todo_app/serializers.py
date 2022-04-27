@@ -12,4 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
         fields = '__all__'
-        
+
+
+

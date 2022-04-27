@@ -1,7 +1,7 @@
 import Fetching from './Components/Fetching'
 import {BrowserRouter,Routes,Route,Link,Switch} from "react-router-dom"
-import Login from './Components/Login';
-import Signup from './Components/Signup';
+import Login from './Components/auth-folder/Login';
+import Signup from './Components/auth-folder/Signup';
 import PrivateRoute from './Components/PrivateRoute';
 
 
