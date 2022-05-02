@@ -8,17 +8,16 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 router.register(r'task', views.TaskViewSet)
+router.register(r'list',views.ListViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('user-tasks/<int:user_id>' ,views.user_tasks),
+    path('user-list/<int:user_id>' ,views.user_list),
+    path('get-task/<int:list_id',views.get_task),
     path('create-user',views.signup),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
 ]
-
-
-
 
 
 

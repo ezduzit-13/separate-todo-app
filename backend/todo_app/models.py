@@ -14,9 +14,17 @@ class AppUser(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
 
+class TaskList(models.Model):
+    list_name = models.CharField(max_length=255)
+    user_id = models.ForeignKey(AppUser,on_delete=models.CASCADE,default=None)
+
+
+
+
 class Task(models.Model):
     title = models.CharField(max_length=255)
-    user_id = models.ForeignKey(AppUser, on_delete=models.CASCADE)
-
+    completed = models.BooleanField(default=False)
+    list_id = models.ForeignKey(TaskList, on_delete=models.CASCADE,default=None)
     def __str__(self):
         return self.title
+
