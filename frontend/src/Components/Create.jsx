@@ -2,11 +2,11 @@ import React,{useState,useEffect} from 'react'
 
 const Create = (props) => {
   const [content,setContent] = useState('')
-  const url = 'http://localhost:8000/api/task/'
+  const url = 'http://localhost:8000/api/list/'
   const user = localStorage.getItem('user')
   const handleSubmit = (e) => {
     const blog = {
-        title: content,
+        list_name: content,
         user_id: user
     }
     console.log(blog)

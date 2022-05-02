@@ -5,6 +5,7 @@ import Delete from './Delete'
 import axios from 'axios'
 import './style-fetching.css'
 import { Link } from "react-router-dom";
+import { getRequest,deleteRequest } from './utils-folder/api-calls'
 
 
 
@@ -16,18 +17,12 @@ const Fetching = () => {
 
   const user = localStorage.getItem('user')
 
-  async function fetchTask() {
-    let response = await fetch('http://localhost:8000/api/user-tasks/' + user)
-    let data = response.json()
-    return data
-  }
-
+  const url = 'http://localhost:8000/api/user-list/' + user  
   useEffect(()=>{
-    fetchTask().then((data)=> {
-      console.log(data)
+    getRequest(url)
+    .then(data=>{
       getList(data)
     })
-    
   },[])
 
   const Logout = () => {
@@ -46,25 +41,48 @@ const Fetching = () => {
   
   function taskListShow(list) {
     return (
-      <tr>
-        <td>{list.title}</td>
-        <td>
-          <button onClick={()=>{getUpdate(true);getList_id(()=>list.id)}}>update</button>
-        </td>
-        <td><Delete num = {list.id}/></td>
-      </tr> 
+      <>
+      {/* put the update form here plz. The form will then call the api to put the new data
+      url = http://localhost:8000/api/list/{list.id}/
+        putRequest(url,{the object that should be changed.})
+      */}
+      <div style={{
+        display:'flex'
+      }}>
+        {/* add an on click event to the button that will trigger the form above it
+        */}
+        <h3>{list.list_name}</h3> <button style={{
+          width:'2vw',
+          height:'2vh'
+        }}>u</button>
+        <button 
+        style={{
+          width:'2vw',
+          height:'2vh'
+        }}
+        onClick={()=>{
+          let delete_url = 'http://localhost:8000/api/list/' + list.id
+          console.log('what??')
+          deleteRequest(delete_url)
+        }}
+        >X</button>
+
+      </div>
+        
+        {/* Need to add the table of tasks below this thing here */}
+      </> 
     )
   }
 
 
   return (user ?list ?  
     <div>       
-        <table>
-            {list.map(taskListShow)}
-        </table>
-        <button onClick = {()=>getCreate(()=>true)}>New To-Do</button>
+        {list.map(taskListShow)}
+        <button onClick = {()=>getCreate(()=>true)}>New List</button>
         <br />
+        {/* Create list form... this will be where the form is triggered after the button is pressed */}
         <Create trigger = {create}/>
+        
         <Update trigger = {update} list_id = {list_id}/>
         <br />
         <br /> 
